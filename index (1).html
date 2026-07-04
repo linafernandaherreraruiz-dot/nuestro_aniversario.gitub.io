@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Camilo ❤️ — Un universo construido para ti</title>
+<meta name="description" content="Un regalo digital: un pequeño universo interactivo construido para recordarte cuánto te amo.">
+<meta name="theme-color" content="#050510">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- CANVAS DE FONDO: nebulosa, estrellas, planetas, parallax -->
+<!-- ============================================= -->
+<canvas id="cosmos-canvas" aria-hidden="true"></canvas>
+
+<!-- CANVAS DE PÉTALOS (lluvia continua) -->
+<canvas id="petals-canvas" aria-hidden="true"></canvas>
+
+<!-- Capa de ondas de clic -->
+<div id="ripple-layer" aria-hidden="true"></div>
+
+<!-- Cursor personalizado con pequeñas estrellas -->
+<div id="cursor-star" aria-hidden="true">✦</div>
+
+<!-- Frases interactivas flotantes (aparecen y se desvanecen mientras navegas) -->
+<div id="floating-phrase" class="floating-phrase" aria-hidden="true"></div>
+
+<!-- ============================================= -->
+<!-- SECUENCIA DE INTRO: pantalla negra -> estrellas -> nebulosa -> texto -->
+<!-- ============================================= -->
+<section id="intro-screen" role="dialog" aria-label="Introducción">
+  <div class="intro-text-sequence">
+    <p class="intro-line" data-step="1">Hola Camilo <span class="heart">❤️</span></p>
+    <p class="intro-line" data-step="2">Hay personas que llegan para cambiar una vida.</p>
+    <p class="intro-line" data-step="3">Tú cambiaste la mía.</p>
+  </div>
+  <button id="start-journey-btn" class="btn-glow intro-btn" type="button">
+    <span>Comenzar nuestro viaje</span>
+  </button>
+</section>
+
+<!-- ============================================= -->
+<!-- REPRODUCTOR DE MÚSICA -->
+<!-- ============================================= -->
+<div id="music-player" class="glass-panel" aria-label="Reproductor de música">
+  <audio id="bg-audio" src="assets/eres-cafe-tacvba.mp3" loop preload="none"></audio>
+  <audio id="ambient-audio" src="assets/ambient-space.mp3" loop preload="none"></audio>
+  <button id="play-pause-btn" class="player-btn" type="button" aria-label="Pausar o reanudar la música">
+    <svg id="icon-play" viewBox="0 0 24 24" width="18" height="18"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+    <svg id="icon-pause" viewBox="0 0 24 24" width="18" height="18" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+  </button>
+  <div class="track-info">
+    <span class="track-name">Eres</span>
+    <span class="track-artist">Café Tacvba</span>
+  </div>
+  <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Control de volumen">
+</div>
+
+<!-- ============================================= -->
+<!-- CONTENIDO PRINCIPAL -->
+<!-- ============================================= -->
+<main id="main-content" aria-hidden="true">
+
+  <!-- CUENTA REGRESIVA -->
+  <section class="section hero-section" id="contador">
+    <p class="fade-in eyebrow">✦ contando cada instante</p>
+    <h2 class="fade-in glow-title">Nuestro primer año</h2>
+
+    <div class="counter-grid fade-in" id="counter-grid" role="timer" aria-live="off">
+      <div class="counter-unit">
+        <span class="counter-number" id="count-days">000</span>
+        <span class="counter-label">días</span>
+      </div>
+      <div class="counter-unit">
+        <span class="counter-number" id="count-hours">00</span>
+        <span class="counter-label">horas</span>
+      </div>
+      <div class="counter-unit">
+        <span class="counter-number" id="count-minutes">00</span>
+        <span class="counter-label">minutos</span>
+      </div>
+      <div class="counter-unit">
+        <span class="counter-number" id="count-seconds">00</span>
+        <span class="counter-label">segundos</span>
+      </div>
+    </div>
+
+    <p class="counter-since fade-in" id="counter-caption">Del 5 de julio de 2025 al 4 de julio de 2026: el mapa de nuestro primer año.</p>
+
+    <div id="celebration-message" class="celebration-message" hidden>
+      Hoy celebramos nuestro primer año juntos <span class="heart">❤️</span>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- FRASE 1 -->
+  <section class="section phrase-section">
+    <p class="phrase fade-in">"El universo es inmenso, pero mi lugar favorito siempre será a tu lado."</p>
+  </section>
+
+  <!-- NUESTRA HISTORIA -->
+  <section class="section story-section" id="historia">
+    <p class="eyebrow fade-in">✦ una carta para el tiempo</p>
+    <h2 class="glow-title fade-in">Nuestra Historia</h2>
+    <div class="story-text" id="story-text-container">
+      <p data-full="Hay instantes que no se anuncian como importantes y que, sin embargo, terminan reescribiendo por completo el rumbo de una vida. El día que te vi por primera vez fue uno de esos instantes silenciosos: no hubo señales, no hubo certezas, solo la extraña sensación de que algo en el mundo acababa de ordenarse de otra manera. Supe, casi sin permitirme dudarlo, que estaba frente a la persona más hermosa que había cruzado mi camino. Y no hablo únicamente de una belleza que se ve, sino de una que se descubre despacio: la de alguien paciente, generoso, con un corazón tan amplio que parece no conocer límites."></p>
+      <p data-full="Nuestra historia no comenzó envuelta en la perfección que a veces imaginamos cuando soñamos con el amor. Tuvo tropiezos, silencios incómodos, tiempos de aprender a mirarnos con honestidad. Pero fue precisamente en ese territorio imperfecto donde comprendí algo que ya casi había dejado de creer: que todavía existen personas capaces de entregarlo todo por quienes aman, sin condiciones, sin cálculos, sin medias tintas. Me tomó tiempo entenderlo del todo, lo reconozco. Pero hoy, con la misma claridad con la que se reconoce el amanecer, sé que eres la persona junto a la que quiero construir cada capítulo que me queda por vivir."></p>
+      <p data-full="Quiero caminar contigo hasta donde el camino decida llevarnos, sin que las dificultades tengan el poder de detenernos. Sé que no soy una persona sencilla, que cargo con contradicciones y aristas que todavía debo pulir, y que me falta camino por recorrer para ser mejor para ti y para nosotros. Pero también sé, con la misma certeza con la que sé tu nombre, que deseo hacerlo a tu lado. Tal vez sea egoísta desear compartir mi vida contigo y con nadie más. Si lo es, entonces es el egoísmo más honesto que he sentido jamás: el de no querer imaginar un futuro en el que tú no estés."></p>
+    </div>
+  </section>
+
+  <!-- FRASE 2 -->
+  <section class="section phrase-section">
+    <p class="phrase fade-in">"Cada estrella representa un momento en el que pensé en ti."</p>
+  </section>
+
+  <!-- CARTAS DE AMOR -->
+  <section class="section letters-section" id="cartas">
+    <p class="eyebrow fade-in">✦ palabras que quería guardarte</p>
+    <h2 class="glow-title fade-in">Cartas para Ti ❤️</h2>
+
+    <div class="envelopes-grid">
+      <article class="envelope-wrapper fade-in" data-letter="1">
+        <div class="envelope" tabindex="0" role="button" aria-expanded="false" aria-label="Abrir la primera carta">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="wax-seal">❤</div>
+          <div class="envelope-front"></div>
+          <p class="envelope-cta">Haz clic aquí para acceder a la carta</p>
+        </div>
+      </article>
+
+      <article class="envelope-wrapper fade-in" data-letter="2">
+        <div class="envelope" tabindex="0" role="button" aria-expanded="false" aria-label="Abrir la segunda carta">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="wax-seal">❤</div>
+          <div class="envelope-front"></div>
+          <p class="envelope-cta">Haz clic aquí para acceder a la carta</p>
+        </div>
+      </article>
+
+      <article class="envelope-wrapper fade-in" data-letter="3">
+        <div class="envelope" tabindex="0" role="button" aria-expanded="false" aria-label="Abrir la tercera carta">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="wax-seal">❤</div>
+          <div class="envelope-front"></div>
+          <p class="envelope-cta">Haz clic aquí para acceder a la carta</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FRASE 3 -->
+  <section class="section phrase-section">
+    <p class="phrase fade-in">"Volvería a elegirte una y otra vez."</p>
+  </section>
+
+  <!-- MENSAJE FINAL -->
+  <section class="section final-section" id="final">
+    <canvas id="galaxy-canvas" aria-hidden="true"></canvas>
+    <div class="final-content">
+      <p class="final-line" data-order="1">Gracias por llegar a mi vida.</p>
+      <p class="final-line" data-order="2">Gracias por enseñarme lo que significa amar.</p>
+      <p class="final-line" data-order="3">Gracias por quedarte.</p>
+      <p class="final-line" data-order="4">Prometo seguir eligiéndote cada día.</p>
+      <h2 class="final-big" data-order="5">TE AMO 3 MILLONES <span class="heart">❤️</span></h2>
+      <p class="final-sub" data-order="6">Si pudiera recorrer el universo entero una y otra vez, siempre volvería a elegir el mismo destino: tú.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Modal de carta -->
+<div id="letter-modal" class="letter-modal" role="dialog" aria-modal="true" aria-label="Carta de amor" hidden>
+  <div class="letter-paper">
+    <button class="letter-close" type="button" aria-label="Cerrar carta">✕</button>
+    <div class="letter-seal-mini">❤</div>
+    <div class="letter-body" id="letter-body"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
